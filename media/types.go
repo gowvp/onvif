@@ -1,8 +1,8 @@
 package media
 
 import (
-	"github.com/use-go/onvif/xsd"
-	"github.com/use-go/onvif/xsd/onvif"
+	"github.com/gowvp/onvif/xsd"
+	"github.com/gowvp/onvif/xsd/onvif"
 )
 
 type Capabilities struct {
@@ -28,8 +28,7 @@ type StreamingCapabilities struct {
 	NoRTSPStreaming     bool `xml:"NoRTSPStreaming,attr"`
 }
 
-//Media main types
-
+// Media main types
 type GetServiceCapabilities struct {
 	XMLName string `xml:"trt:GetServiceCapabilities"`
 }
@@ -95,16 +94,14 @@ type AddVideoEncoderConfiguration struct {
 	ConfigurationToken onvif.ReferenceToken `xml:"trt:ConfigurationToken"`
 }
 
-type AddVideoEncoderConfigurationResponse struct {
-}
+type AddVideoEncoderConfigurationResponse struct{}
 
 type RemoveVideoEncoderConfiguration struct {
 	XMLName      string               `xml:"trt:RemoveVideoEncoderConfiguration"`
 	ProfileToken onvif.ReferenceToken `xml:"trt:ProfileToken"`
 }
 
-type RemoveVideoEncoderConfigurationResponse struct {
-}
+type RemoveVideoEncoderConfigurationResponse struct{}
 
 type AddVideoSourceConfiguration struct {
 	XMLName            string               `xml:"trt:AddVideoSourceConfiguration"`
@@ -112,16 +109,14 @@ type AddVideoSourceConfiguration struct {
 	ConfigurationToken onvif.ReferenceToken `xml:"trt:ConfigurationToken"`
 }
 
-type AddVideoSourceConfigurationResponse struct {
-}
+type AddVideoSourceConfigurationResponse struct{}
 
 type RemoveVideoSourceConfiguration struct {
 	XMLName      string               `xml:"trt:RemoveVideoSourceConfiguration"`
 	ProfileToken onvif.ReferenceToken `xml:"trt:ProfileToken"`
 }
 
-type RemoveVideoSourceConfigurationResponse struct {
-}
+type RemoveVideoSourceConfigurationResponse struct{}
 
 type AddAudioEncoderConfiguration struct {
 	XMLName            string               `xml:"trt:AddAudioEncoderConfiguration"`
@@ -129,16 +124,14 @@ type AddAudioEncoderConfiguration struct {
 	ConfigurationToken onvif.ReferenceToken `xml:"trt:ConfigurationToken"`
 }
 
-type AddAudioEncoderConfigurationResponse struct {
-}
+type AddAudioEncoderConfigurationResponse struct{}
 
 type RemoveAudioEncoderConfiguration struct {
 	XMLName      string               `xml:"trt:RemoveAudioEncoderConfiguration"`
 	ProfileToken onvif.ReferenceToken `xml:"trt:ProfileToken"`
 }
 
-type RemoveAudioEncoderConfigurationResponse struct {
-}
+type RemoveAudioEncoderConfigurationResponse struct{}
 
 type AddAudioSourceConfiguration struct {
 	XMLName            string               `xml:"trt:AddAudioSourceConfiguration"`
@@ -146,16 +139,14 @@ type AddAudioSourceConfiguration struct {
 	ConfigurationToken onvif.ReferenceToken `xml:"trt:ConfigurationToken"`
 }
 
-type AddAudioSourceConfigurationResponse struct {
-}
+type AddAudioSourceConfigurationResponse struct{}
 
 type RemoveAudioSourceConfiguration struct {
 	XMLName      string               `xml:"trt:RemoveAudioSourceConfiguration"`
 	ProfileToken onvif.ReferenceToken `xml:"trt:ProfileToken"`
 }
 
-type RemoveAudioSourceConfigurationResponse struct {
-}
+type RemoveAudioSourceConfigurationResponse struct{}
 
 type AddPTZConfiguration struct {
 	XMLName            string               `xml:"trt:AddPTZConfiguration"`
@@ -163,16 +154,14 @@ type AddPTZConfiguration struct {
 	ConfigurationToken onvif.ReferenceToken `xml:"trt:ConfigurationToken"`
 }
 
-type AddPTZConfigurationResponse struct {
-}
+type AddPTZConfigurationResponse struct{}
 
 type RemovePTZConfiguration struct {
 	XMLName      string               `xml:"trt:RemovePTZConfiguration"`
 	ProfileToken onvif.ReferenceToken `xml:"trt:ProfileToken"`
 }
 
-type RemovePTZConfigurationResponse struct {
-}
+type RemovePTZConfigurationResponse struct{}
 
 type AddVideoAnalyticsConfiguration struct {
 	XMLName            string               `xml:"trt:AddVideoAnalyticsConfiguration"`
@@ -180,16 +169,14 @@ type AddVideoAnalyticsConfiguration struct {
 	ConfigurationToken onvif.ReferenceToken `xml:"trt:ConfigurationToken"`
 }
 
-type AddVideoAnalyticsConfigurationResponse struct {
-}
+type AddVideoAnalyticsConfigurationResponse struct{}
 
 type RemoveVideoAnalyticsConfiguration struct {
 	XMLName      string               `xml:"trt:RemoveVideoAnalyticsConfiguration"`
 	ProfileToken onvif.ReferenceToken `xml:"trt:ProfileToken"`
 }
 
-type RemoveVideoAnalyticsConfigurationResponse struct {
-}
+type RemoveVideoAnalyticsConfigurationResponse struct{}
 
 type AddMetadataConfiguration struct {
 	XMLName            string               `xml:"trt:AddMetadataConfiguration"`
@@ -197,16 +184,14 @@ type AddMetadataConfiguration struct {
 	ConfigurationToken onvif.ReferenceToken `xml:"trt:ConfigurationToken"`
 }
 
-type AddMetadataConfigurationResponse struct {
-}
+type AddMetadataConfigurationResponse struct{}
 
 type RemoveMetadataConfiguration struct {
 	XMLName      string               `xml:"trt:RemoveMetadataConfiguration"`
 	ProfileToken onvif.ReferenceToken `xml:"trt:ProfileToken"`
 }
 
-type RemoveMetadataConfigurationResponse struct {
-}
+type RemoveMetadataConfigurationResponse struct{}
 
 type AddAudioOutputConfiguration struct {
 	XMLName            string               `xml:"trt:AddAudioOutputConfiguration"`
@@ -214,16 +199,14 @@ type AddAudioOutputConfiguration struct {
 	ConfigurationToken onvif.ReferenceToken `xml:"trt:ConfigurationToken"`
 }
 
-type AddAudioOutputConfigurationResponse struct {
-}
+type AddAudioOutputConfigurationResponse struct{}
 
 type RemoveAudioOutputConfiguration struct {
 	XMLName      string               `xml:"trt:RemoveAudioOutputConfiguration"`
 	ProfileToken onvif.ReferenceToken `xml:"trt:ProfileToken"`
 }
 
-type RemoveAudioOutputConfigurationResponse struct {
-}
+type RemoveAudioOutputConfigurationResponse struct{}
 
 type AddAudioDecoderConfiguration struct {
 	XMLName            string               `xml:"trt:AddAudioDecoderConfiguration"`
@@ -231,24 +214,21 @@ type AddAudioDecoderConfiguration struct {
 	ConfigurationToken onvif.ReferenceToken `xml:"trt:ConfigurationToken"`
 }
 
-type AddAudioDecoderConfigurationResponse struct {
-}
+type AddAudioDecoderConfigurationResponse struct{}
 
 type RemoveAudioDecoderConfiguration struct {
 	XMLName      string               `xml:"trt:RemoveAudioDecoderConfiguration"`
 	ProfileToken onvif.ReferenceToken `xml:"trt:ProfileToken"`
 }
 
-type RemoveAudioDecoderConfigurationResponse struct {
-}
+type RemoveAudioDecoderConfigurationResponse struct{}
 
 type DeleteProfile struct {
 	XMLName      string               `xml:"trt:DeleteProfile"`
 	ProfileToken onvif.ReferenceToken `xml:"trt:ProfileToken"`
 }
 
-type DeleteProfileResponse struct {
-}
+type DeleteProfileResponse struct{}
 
 type GetVideoSourceConfigurations struct {
 	XMLName string `xml:"trt:GetVideoSourceConfigurations"`
@@ -464,8 +444,7 @@ type SetVideoSourceConfiguration struct {
 	ForcePersistence xsd.Boolean                    `xml:"trt:ForcePersistence"`
 }
 
-type SetVideoSourceConfigurationResponse struct {
-}
+type SetVideoSourceConfigurationResponse struct{}
 
 type SetVideoEncoderConfiguration struct {
 	XMLName          string                          `xml:"trt:SetVideoEncoderConfiguration"`
@@ -473,8 +452,7 @@ type SetVideoEncoderConfiguration struct {
 	ForcePersistence xsd.Boolean                     `xml:"trt:ForcePersistence"`
 }
 
-type SetVideoEncoderConfigurationResponse struct {
-}
+type SetVideoEncoderConfigurationResponse struct{}
 
 type SetAudioSourceConfiguration struct {
 	XMLName          string                         `xml:"trt:SetAudioSourceConfiguration"`
@@ -482,8 +460,7 @@ type SetAudioSourceConfiguration struct {
 	ForcePersistence xsd.Boolean                    `xml:"trt:ForcePersistence"`
 }
 
-type SetAudioSourceConfigurationResponse struct {
-}
+type SetAudioSourceConfigurationResponse struct{}
 
 type SetAudioEncoderConfiguration struct {
 	XMLName          string                          `xml:"trt:SetAudioEncoderConfiguration"`
@@ -491,8 +468,7 @@ type SetAudioEncoderConfiguration struct {
 	ForcePersistence xsd.Boolean                     `xml:"trt:ForcePersistence"`
 }
 
-type SetAudioEncoderConfigurationResponse struct {
-}
+type SetAudioEncoderConfigurationResponse struct{}
 
 type SetVideoAnalyticsConfiguration struct {
 	XMLName          string                            `xml:"trt:SetVideoAnalyticsConfiguration"`
@@ -500,8 +476,7 @@ type SetVideoAnalyticsConfiguration struct {
 	ForcePersistence bool                              `xml:"trt:ForcePersistence"`
 }
 
-type SetVideoAnalyticsConfigurationResponse struct {
-}
+type SetVideoAnalyticsConfigurationResponse struct{}
 
 type SetMetadataConfiguration struct {
 	XMLName          string                      `xml:"trt:GetDeviceInformation"`
@@ -509,8 +484,7 @@ type SetMetadataConfiguration struct {
 	ForcePersistence xsd.Boolean                 `xml:"trt:ForcePersistence"`
 }
 
-type SetMetadataConfigurationResponse struct {
-}
+type SetMetadataConfigurationResponse struct{}
 
 type SetAudioOutputConfiguration struct {
 	XMLName          string                         `xml:"trt:SetAudioOutputConfiguration"`
@@ -518,8 +492,7 @@ type SetAudioOutputConfiguration struct {
 	ForcePersistence bool                           `xml:"trt:ForcePersistence"`
 }
 
-type SetAudioOutputConfigurationResponse struct {
-}
+type SetAudioOutputConfigurationResponse struct{}
 
 type SetAudioDecoderConfiguration struct {
 	XMLName          string                          `xml:"trt:SetAudioDecoderConfiguration"`
@@ -527,8 +500,7 @@ type SetAudioDecoderConfiguration struct {
 	ForcePersistence xsd.Boolean                     `xml:"trt:ForcePersistence"`
 }
 
-type SetAudioDecoderConfigurationResponse struct {
-}
+type SetAudioDecoderConfigurationResponse struct{}
 
 type GetVideoSourceConfigurationOptions struct {
 	XMLName            string               `xml:"trt:GetVideoSourceConfigurationOptions"`
@@ -627,24 +599,21 @@ type StartMulticastStreaming struct {
 	ProfileToken onvif.ReferenceToken `xml:"trt:ProfileToken"`
 }
 
-type StartMulticastStreamingResponse struct {
-}
+type StartMulticastStreamingResponse struct{}
 
 type StopMulticastStreaming struct {
 	XMLName      string               `xml:"trt:StopMulticastStreaming"`
 	ProfileToken onvif.ReferenceToken `xml:"trt:ProfileToken"`
 }
 
-type StopMulticastStreamingResponse struct {
-}
+type StopMulticastStreamingResponse struct{}
 
 type SetSynchronizationPoint struct {
 	XMLName      string               `xml:"trt:SetSynchronizationPoint"`
 	ProfileToken onvif.ReferenceToken `xml:"trt:ProfileToken"`
 }
 
-type SetSynchronizationPointResponse struct {
-}
+type SetSynchronizationPointResponse struct{}
 
 type GetSnapshotUri struct {
 	XMLName      string               `xml:"trt:GetSnapshotUri"`
@@ -706,8 +675,7 @@ type SetOSD struct {
 	OSD     onvif.OSDConfiguration `xml:"trt:OSD"`
 }
 
-type SetOSDResponse struct {
-}
+type SetOSDResponse struct{}
 
 type CreateOSD struct {
 	XMLName string                 `xml:"trt:CreateOSD"`
@@ -723,5 +691,4 @@ type DeleteOSD struct {
 	OSDToken onvif.ReferenceToken `xml:"trt:OSDToken"`
 }
 
-type DeleteOSDResponse struct {
-}
+type DeleteOSDResponse struct{}

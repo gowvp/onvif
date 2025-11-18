@@ -6,10 +6,10 @@ import (
 	"log"
 	"net/http"
 
-	goonvif "github.com/use-go/onvif"
-	"github.com/use-go/onvif/device"
-	sdk "github.com/use-go/onvif/sdk/device"
-	"github.com/use-go/onvif/xsd/onvif"
+	goonvif "github.com/gowvp/onvif"
+	"github.com/gowvp/onvif/device"
+	sdk "github.com/gowvp/onvif/sdk/device"
+	"github.com/gowvp/onvif/xsd/onvif"
 )
 
 const (
@@ -20,7 +20,7 @@ const (
 func main() {
 	ctx := context.Background()
 
-	//Getting an camera instance
+	// Getting an camera instance
 	dev, err := goonvif.NewDevice(goonvif.DeviceParams{
 		Xaddr:      "192.168.13.14:80",
 		Username:   login,
@@ -31,7 +31,7 @@ func main() {
 		panic(err)
 	}
 
-	//Preparing commands
+	// Preparing commands
 	systemDateAndTyme := device.GetSystemDateAndTime{}
 	getCapabilities := device.GetCapabilities{Category: "All"}
 	createUser := device.CreateUsers{
@@ -42,7 +42,7 @@ func main() {
 		},
 	}
 
-	//Commands execution
+	// Commands execution
 	systemDateAndTymeResponse, err := sdk.Call_GetSystemDateAndTime(ctx, dev, systemDateAndTyme)
 	if err != nil {
 		log.Println(err)
@@ -60,8 +60,7 @@ func main() {
 	if err != nil {
 		log.Println(err)
 	} else {
-		// You could use https://github.com/use-go/onvif/gosoap for pretty printing response
+		// You could use https://github.com/gowvp/onvif/gosoap for pretty printing response
 		fmt.Println(createUserResponse)
 	}
-
 }

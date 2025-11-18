@@ -6,10 +6,11 @@ package ptz
 
 import (
 	"context"
+
+	"github.com/gowvp/onvif"
+	"github.com/gowvp/onvif/ptz"
+	"github.com/gowvp/onvif/sdk"
 	"github.com/juju/errors"
-	"github.com/use-go/onvif"
-	"github.com/use-go/onvif/sdk"
-	"github.com/use-go/onvif/ptz"
 )
 
 // Call_GetConfigurationOptions forwards the call to dev.CallMethod() then parses the payload of the reply as a GetConfigurationOptionsResponse.

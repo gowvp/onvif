@@ -4,14 +4,14 @@ import (
 	"strings"
 
 	"github.com/beevik/etree"
-	"github.com/use-go/onvif/gosoap"
+	"github.com/gowvp/onvif/gosoap"
 )
 
 func buildProbeMessage(uuidV4 string, scopes, types []string, nmsp map[string]string) gosoap.SoapMessage {
-	//Список namespace
+	// Список namespace
 	namespaces := make(map[string]string)
 	namespaces["a"] = "http://schemas.xmlsoap.org/ws/2004/08/addressing"
-	//namespaces["d"] = "http://schemas.xmlsoap.org/ws/2005/04/discovery"
+	// namespaces["d"] = "http://schemas.xmlsoap.org/ws/2005/04/discovery"
 
 	probeMessage := gosoap.NewEmptySOAP()
 
@@ -20,9 +20,9 @@ func buildProbeMessage(uuidV4 string, scopes, types []string, nmsp map[string]st
 	//	probeMessage.AddRootNamespaces(nmsp)
 	//}
 
-	//fmt.Println(probeMessage.String())
+	// fmt.Println(probeMessage.String())
 
-	//Содержимое Head
+	// Содержимое Head
 	var headerContent []*etree.Element
 
 	action := etree.NewElement("a:Action")
@@ -42,7 +42,7 @@ func buildProbeMessage(uuidV4 string, scopes, types []string, nmsp map[string]st
 	headerContent = append(headerContent, action, msgID, replyTo, to)
 	probeMessage.AddHeaderContents(headerContent)
 
-	//Содержимое Body
+	// Содержимое Body
 	probe := etree.NewElement("Probe")
 	probe.CreateAttr("xmlns", "http://schemas.xmlsoap.org/ws/2005/04/discovery")
 
@@ -54,7 +54,7 @@ func buildProbeMessage(uuidV4 string, scopes, types []string, nmsp map[string]st
 			}
 		}
 		typesTag.CreateAttr("xmlns:d", "http://schemas.xmlsoap.org/ws/2005/04/discovery")
-		//typesTag.CreateAttr("xmlns:dp0", "http://www.onvif.org/ver10/network/wsdl")
+		// typesTag.CreateAttr("xmlns:dp0", "http://www.onvif.org/ver10/network/wsdl")
 		var typesString string
 		for _, j := range types {
 			typesString += j

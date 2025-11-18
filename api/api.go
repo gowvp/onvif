@@ -15,10 +15,10 @@ import (
 
 	"github.com/beevik/etree"
 	"github.com/gin-gonic/gin"
-	"github.com/use-go/onvif"
-	"github.com/use-go/onvif/gosoap"
-	"github.com/use-go/onvif/networking"
-	wsdiscovery "github.com/use-go/onvif/ws-discovery"
+	"github.com/gowvp/onvif"
+	"github.com/gowvp/onvif/gosoap"
+	"github.com/gowvp/onvif/networking"
+	wsdiscovery "github.com/gowvp/onvif/ws-discovery"
 )
 
 var (
@@ -38,7 +38,7 @@ func RunApi() {
 
 	router.POST("/:service/:method", func(c *gin.Context) {
 		c.Header("Access-Control-Allow-Origin", "*")
-		//c.Header("Access-Control-Allow-Headers", "access-control-allow-origin, access-control-allow-headers")
+		// c.Header("Access-Control-Allow-Headers", "access-control-allow-origin, access-control-allow-headers")
 
 		serviceName := c.Param("service")
 		methodName := c.Param("method")
@@ -124,7 +124,7 @@ func callNecessaryMethod(serviceName, methodName, acceptedData, username, passwo
 	default:
 		return "", errors.New("there is no such service")
 	}
-	if err != nil { //done
+	if err != nil { // done
 		return "", errors.Annotate(err, "getStructByName")
 	}
 
@@ -182,9 +182,9 @@ func getEndpoint(service, xaddr string) (string, error) {
 }
 
 func xmlAnalize(methodStruct interface{}, acceptedData *string) (*string, error) {
-	test := make([]map[string]string, 0)      //tags
-	testunMarshal := make([][]interface{}, 0) //data
-	var mas []string                          //idnt
+	test := make([]map[string]string, 0)      // tags
+	testunMarshal := make([][]interface{}, 0) // data
+	var mas []string                          // idnt
 
 	soapHandling(methodStruct, &test)
 	test = mapProcessing(test)
@@ -199,7 +199,7 @@ func xmlAnalize(methodStruct interface{}, acceptedData *string) (*string, error)
 
 	document := etree.NewDocument()
 	var el *etree.Element
-	var idntIndex = 0
+	idntIndex := 0
 
 	for lstIndex := 0; lstIndex < len(testunMarshal); {
 		lst := (testunMarshal)[lstIndex]
@@ -208,7 +208,7 @@ func xmlAnalize(methodStruct interface{}, acceptedData *string) (*string, error)
 			return nil, errors.Annotate(err, "xmlMarker")
 		}
 
-		if mas[lstIndex] == "Push" && lstIndex == 0 { //done
+		if mas[lstIndex] == "Push" && lstIndex == 0 { // done
 			el = document.CreateElement(elemName)
 			el.SetText(value)
 			if len(attr) != 0 {

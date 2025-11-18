@@ -6,10 +6,11 @@ package media
 
 import (
 	"context"
+
+	"github.com/gowvp/onvif"
+	"github.com/gowvp/onvif/media"
+	"github.com/gowvp/onvif/sdk"
 	"github.com/juju/errors"
-	"github.com/use-go/onvif"
-	"github.com/use-go/onvif/sdk"
-	"github.com/use-go/onvif/media"
 )
 
 // Call_DeleteProfile forwards the call to dev.CallMethod() then parses the payload of the reply as a DeleteProfileResponse.

@@ -1,8 +1,8 @@
 package ptz
 
 import (
-	"github.com/use-go/onvif/xsd"
-	"github.com/use-go/onvif/xsd/onvif"
+	"github.com/gowvp/onvif/xsd"
+	"github.com/gowvp/onvif/xsd/onvif"
 )
 
 type Capabilities struct {
@@ -13,8 +13,7 @@ type Capabilities struct {
 	StatusPosition              xsd.Boolean `xml:"StatusPosition,attr"`
 }
 
-//PTZ main types
-
+// PTZ main types
 type GetServiceCapabilities struct {
 	XMLName string `xml:"tptz:GetServiceCapabilities"`
 }
@@ -63,8 +62,7 @@ type SetConfiguration struct {
 	ForcePersistence xsd.Boolean            `xml:"tptz:ForcePersistence"`
 }
 
-type SetConfigurationResponse struct {
-}
+type SetConfigurationResponse struct{}
 
 type GetConfigurationOptions struct {
 	XMLName      string               `xml:"tptz:GetConfigurationOptions"`
@@ -111,8 +109,7 @@ type RemovePreset struct {
 	PresetToken  onvif.ReferenceToken `xml:"tptz:PresetToken"`
 }
 
-type RemovePresetResponse struct {
-}
+type RemovePresetResponse struct{}
 
 type GotoPreset struct {
 	XMLName      string               `xml:"tptz:GotoPreset"`
@@ -121,8 +118,7 @@ type GotoPreset struct {
 	Speed        onvif.PTZSpeed       `xml:"tptz:Speed"`
 }
 
-type GotoPresetResponse struct {
-}
+type GotoPresetResponse struct{}
 
 type GotoHomePosition struct {
 	XMLName      string               `xml:"tptz:GotoHomePosition"`
@@ -130,16 +126,14 @@ type GotoHomePosition struct {
 	Speed        onvif.PTZSpeed       `xml:"tptz:Speed"`
 }
 
-type GotoHomePositionResponse struct {
-}
+type GotoHomePositionResponse struct{}
 
 type SetHomePosition struct {
 	XMLName      string               `xml:"tptz:SetHomePosition"`
 	ProfileToken onvif.ReferenceToken `xml:"tptz:ProfileToken"`
 }
 
-type SetHomePositionResponse struct {
-}
+type SetHomePositionResponse struct{}
 
 type ContinuousMove struct {
 	XMLName      string               `xml:"tptz:ContinuousMove"`
@@ -148,8 +142,7 @@ type ContinuousMove struct {
 	Timeout      xsd.Duration         `xml:"tptz:Timeout"`
 }
 
-type ContinuousMoveResponse struct {
-}
+type ContinuousMoveResponse struct{}
 
 type RelativeMove struct {
 	XMLName      string               `xml:"tptz:RelativeMove"`
@@ -158,8 +151,7 @@ type RelativeMove struct {
 	Speed        onvif.PTZSpeed       `xml:"tptz:Speed"`
 }
 
-type RelativeMoveResponse struct {
-}
+type RelativeMoveResponse struct{}
 
 type GetStatus struct {
 	XMLName      string               `xml:"tptz:GetStatus"`
@@ -177,8 +169,7 @@ type AbsoluteMove struct {
 	Speed        onvif.PTZSpeed       `xml:"tptz:Speed"`
 }
 
-type AbsoluteMoveResponse struct {
-}
+type AbsoluteMoveResponse struct{}
 
 type GeoMove struct {
 	XMLName      string               `xml:"tptz:GeoMove"`
@@ -189,8 +180,7 @@ type GeoMove struct {
 	AreaWidth    xsd.Float            `xml:"tptz:AreaWidth"`
 }
 
-type GeoMoveResponse struct {
-}
+type GeoMoveResponse struct{}
 
 type Stop struct {
 	XMLName      string               `xml:"tptz:Stop"`
@@ -199,8 +189,7 @@ type Stop struct {
 	Zoom         xsd.Boolean          `xml:"tptz:Zoom"`
 }
 
-type StopResponse struct {
-}
+type StopResponse struct{}
 
 type GetPresetTours struct {
 	XMLName      string               `xml:"tptz:GetPresetTours"`
@@ -246,8 +235,7 @@ type ModifyPresetTour struct {
 	PresetTour   onvif.PresetTour     `xml:"tptz:PresetTour"`
 }
 
-type ModifyPresetTourResponse struct {
-}
+type ModifyPresetTourResponse struct{}
 
 type OperatePresetTour struct {
 	XMLName         string                       `xml:"tptz:OperatePresetTour"`
@@ -256,8 +244,7 @@ type OperatePresetTour struct {
 	Operation       onvif.PTZPresetTourOperation `xml:"onvif:Operation"`
 }
 
-type OperatePresetTourResponse struct {
-}
+type OperatePresetTourResponse struct{}
 
 type RemovePresetTour struct {
 	XMLName         string               `xml:"tptz:RemovePresetTour"`
@@ -265,8 +252,7 @@ type RemovePresetTour struct {
 	PresetTourToken onvif.ReferenceToken `xml:"tptz:PresetTourToken"`
 }
 
-type RemovePresetTourResponse struct {
-}
+type RemovePresetTourResponse struct{}
 
 type GetCompatibleConfigurations struct {
 	XMLName      string               `xml:"tptz:GetCompatibleConfigurations"`

@@ -1,32 +1,32 @@
 package event
 
 import (
-	"github.com/use-go/onvif/xsd"
-	"github.com/use-go/onvif/xsd/onvif"
+	"github.com/gowvp/onvif/xsd"
+	"github.com/gowvp/onvif/xsd/onvif"
 )
 
-//Address Alias
+// Address Alias
 type Address xsd.String
 
-//CurrentTime alias
-type CurrentTime xsd.DateTime //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
+// CurrentTime alias
+type CurrentTime xsd.DateTime // wsnt http://docs.oasis-open.org/wsn/b-2.xsd
 
-//TerminationTime alias
-type TerminationTime xsd.DateTime //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
+// TerminationTime alias
+type TerminationTime xsd.DateTime // wsnt http://docs.oasis-open.org/wsn/b-2.xsd
 
-//FixedTopicSet alias
-type FixedTopicSet xsd.Boolean //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
+// FixedTopicSet alias
+type FixedTopicSet xsd.Boolean // wsnt http://docs.oasis-open.org/wsn/b-2.xsd
 
-//Documentation alias
-type Documentation xsd.AnyType //wstop http://docs.oasis-open.org/wsn/t-1.xsd
+// Documentation alias
+type Documentation xsd.AnyType // wstop http://docs.oasis-open.org/wsn/t-1.xsd
 
-//TopicExpressionDialect alias
+// TopicExpressionDialect alias
 type TopicExpressionDialect xsd.AnyURI
 
-//Message alias
+// Message alias
 type Message xsd.AnyType
 
-//MessageNotification alias
+// MessageNotification alias
 type MessageNotification struct {
 	Message MessageNotificationHolderType
 }
@@ -38,17 +38,17 @@ type MessageNotificationHolderType struct {
 	Data              onvif.SimpleItem `xml:"Data>SimpleItem"`
 }
 
-//ActionType for AttributedURIType
+// ActionType for AttributedURIType
 type ActionType AttributedURIType
 
-//AttributedURIType in ws-addr
-type AttributedURIType xsd.AnyURI //wsa https://www.w3.org/2005/08/addressing/ws-addr.xsd
+// AttributedURIType in ws-addr
+type AttributedURIType xsd.AnyURI // wsa https://www.w3.org/2005/08/addressing/ws-addr.xsd
 
 // AbsoluteOrRelativeTimeType <xsd:union memberTypes="xsd:dateTime xsd:duration"/>
-type AbsoluteOrRelativeTimeType xsd.AnySimpleType //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
+type AbsoluteOrRelativeTimeType xsd.AnySimpleType // wsnt http://docs.oasis-open.org/wsn/b-2.xsd
 
-//EndpointReferenceType in ws-addr
-type EndpointReferenceType struct { //wsa http://www.w3.org/2005/08/addressing/ws-addr.xsd
+// EndpointReferenceType in ws-addr
+type EndpointReferenceType struct { // wsa http://www.w3.org/2005/08/addressing/ws-addr.xsd
 	Address             AttributedURIType
 	ReferenceParameters ReferenceParametersType
 	Metadata            MetadataType
@@ -56,82 +56,82 @@ type EndpointReferenceType struct { //wsa http://www.w3.org/2005/08/addressing/w
 
 // FilterType struct
 type FilterType struct {
-	TopicExpression TopicExpressionType `xml:"wsnt:TopicExpression"`
+	TopicExpression TopicExpressionType  `xml:"wsnt:TopicExpression"`
 	MessageContent  *QueryExpressionType `xml:"wsnt:MessageContent"`
 }
 
-//EndpointReference alais
+// EndpointReference alais
 type EndpointReference EndpointReferenceType
 
-//ReferenceParametersType in ws-addr
-type ReferenceParametersType struct { //wsa https://www.w3.org/2005/08/addressing/ws-addr.xsd
-	//Here can be anyAttribute
+// ReferenceParametersType in ws-addr
+type ReferenceParametersType struct { // wsa https://www.w3.org/2005/08/addressing/ws-addr.xsd
+	// Here can be anyAttribute
 }
 
-//Metadata in ws-addr
-type Metadata MetadataType //wsa https://www.w3.org/2005/08/addressing/ws-addr.xsd
+// Metadata in ws-addr
+type Metadata MetadataType // wsa https://www.w3.org/2005/08/addressing/ws-addr.xsd
 
-//MetadataType in ws-addr
-type MetadataType struct { //wsa https://www.w3.org/2005/08/addressing/ws-addr.xsd
+// MetadataType in ws-addr
+type MetadataType struct { // wsa https://www.w3.org/2005/08/addressing/ws-addr.xsd
 
-	//Here can be anyAttribute
+	// Here can be anyAttribute
 }
 
-//TopicSet alias
-type TopicSet TopicSetType //wstop http://docs.oasis-open.org/wsn/t-1.xsd
+// TopicSet alias
+type TopicSet TopicSetType // wstop http://docs.oasis-open.org/wsn/t-1.xsd
 
-//TopicSetType alias
-type TopicSetType struct { //wstop http://docs.oasis-open.org/wsn/t-1.xsd
+// TopicSetType alias
+type TopicSetType struct { // wstop http://docs.oasis-open.org/wsn/t-1.xsd
 	ExtensibleDocumented
-	//here can be any element
+	// here can be any element
 }
 
-//ExtensibleDocumented struct
-type ExtensibleDocumented struct { //wstop http://docs.oasis-open.org/wsn/t-1.xsd
-	Documentation Documentation //к xsd-документе documentation с маленькой буквы начинается
-	//here can be anyAttribute
+// ExtensibleDocumented struct
+type ExtensibleDocumented struct { // wstop http://docs.oasis-open.org/wsn/t-1.xsd
+	Documentation Documentation // к xsd-документе documentation с маленькой буквы начинается
+	// here can be anyAttribute
 }
 
-//ProducerReference Alias
+// ProducerReference Alias
 type ProducerReference EndpointReferenceType
 
-//SubscriptionReference Alias
+// SubscriptionReference Alias
 type SubscriptionReference EndpointReferenceType
 
-//NotificationMessageHolderType Alias
+// NotificationMessageHolderType Alias
 type NotificationMessageHolderType struct {
-	SubscriptionReference SubscriptionReference //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
+	SubscriptionReference SubscriptionReference // wsnt http://docs.oasis-open.org/wsn/b-2.xsd
 	Topic                 Topic
 	ProducerReference     ProducerReference
 	Message               MessageNotification
 }
 
-//NotificationMessage Alias
-type NotificationMessage NotificationMessageHolderType //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
+// NotificationMessage Alias
+type NotificationMessage NotificationMessageHolderType // wsnt http://docs.oasis-open.org/wsn/b-2.xsd
 
-//QueryExpressionType struct for wsnt:MessageContent
-type QueryExpressionType struct { //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
+// QueryExpressionType struct for wsnt:MessageContent
+type QueryExpressionType struct { // wsnt http://docs.oasis-open.org/wsn/b-2.xsd
 	Dialect     xsd.AnyURI `xml:"Dialect,attr"`
 	MessageKind xsd.String `xml:",chardata"` // boolean(ncex:Producer="15")
 }
 
-//MessageContentType Alias
+// MessageContentType Alias
 type MessageContentType QueryExpressionType
 
-//QueryExpression Alias
+// QueryExpression Alias
 type QueryExpression QueryExpressionType
 
-//TopicExpressionType struct for wsnt:TopicExpression
-type TopicExpressionType struct { //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
+// TopicExpressionType struct for wsnt:TopicExpression
+type TopicExpressionType struct { // wsnt http://docs.oasis-open.org/wsn/b-2.xsd
 	Dialect    xsd.AnyURI `xml:"Dialect,attr"`
 	TopicKinds xsd.String `xml:",chardata"`
 }
 
-//Topic Alias
+// Topic Alias
 type Topic TopicExpressionType
 
 // Capabilities of event
-type Capabilities struct { //tev
+type Capabilities struct { // tev
 	WSSubscriptionPolicySupport                   xsd.Boolean `xml:"WSSubscriptionPolicySupport,attr"`
 	WSPullPointSupport                            xsd.Boolean `xml:"WSPullPointSupport,attr"`
 	WSPausableSubscriptionManagerInterfaceSupport xsd.Boolean `xml:"WSPausableSubscriptionManagerInterfaceSupport,attr"`
@@ -140,50 +140,38 @@ type Capabilities struct { //tev
 	PersistentNotificationStorage                 xsd.Boolean `xml:"PersistentNotificationStorage,attr"`
 }
 
-//ResourceUnknownFault response type
-type ResourceUnknownFault struct {
-}
+// ResourceUnknownFault response type
+type ResourceUnknownFault struct{}
 
-//InvalidFilterFault response type
-type InvalidFilterFault struct {
-}
+// InvalidFilterFault response type
+type InvalidFilterFault struct{}
 
-//TopicExpressionDialectUnknownFault response type
-type TopicExpressionDialectUnknownFault struct {
-}
+// TopicExpressionDialectUnknownFault response type
+type TopicExpressionDialectUnknownFault struct{}
 
-//InvalidTopicExpressionFault response type
-type InvalidTopicExpressionFault struct {
-}
+// InvalidTopicExpressionFault response type
+type InvalidTopicExpressionFault struct{}
 
-//TopicNotSupportedFault response type
-type TopicNotSupportedFault struct {
-}
+// TopicNotSupportedFault response type
+type TopicNotSupportedFault struct{}
 
-//InvalidProducerPropertiesExpressionFault response type
-type InvalidProducerPropertiesExpressionFault struct {
-}
+// InvalidProducerPropertiesExpressionFault response type
+type InvalidProducerPropertiesExpressionFault struct{}
 
-//InvalidMessageContentExpressionFault response type
-type InvalidMessageContentExpressionFault struct {
-}
+// InvalidMessageContentExpressionFault response type
+type InvalidMessageContentExpressionFault struct{}
 
-//UnacceptableInitialTerminationTimeFault response type
-type UnacceptableInitialTerminationTimeFault struct {
-}
+// UnacceptableInitialTerminationTimeFault response type
+type UnacceptableInitialTerminationTimeFault struct{}
 
-//UnrecognizedPolicyRequestFault response type
-type UnrecognizedPolicyRequestFault struct {
-}
+// UnrecognizedPolicyRequestFault response type
+type UnrecognizedPolicyRequestFault struct{}
 
-//UnsupportedPolicyRequestFault response type
-type UnsupportedPolicyRequestFault struct {
-}
+// UnsupportedPolicyRequestFault response type
+type UnsupportedPolicyRequestFault struct{}
 
-//NotifyMessageNotSupportedFault response type
-type NotifyMessageNotSupportedFault struct {
-}
+// NotifyMessageNotSupportedFault response type
+type NotifyMessageNotSupportedFault struct{}
 
-//SubscribeCreationFailedFault response type
-type SubscribeCreationFailedFault struct {
-}
+// SubscribeCreationFailedFault response type
+type SubscribeCreationFailedFault struct{}

@@ -11,10 +11,10 @@ import (
 	"strings"
 
 	"github.com/beevik/etree"
-	"github.com/use-go/onvif/device"
-	"github.com/use-go/onvif/gosoap"
-	"github.com/use-go/onvif/networking"
-	wsdiscovery "github.com/use-go/onvif/ws-discovery"
+	"github.com/gowvp/onvif/device"
+	"github.com/gowvp/onvif/gosoap"
+	"github.com/gowvp/onvif/networking"
+	wsdiscovery "github.com/gowvp/onvif/ws-discovery"
 )
 
 // Xlmns XML Scheam
@@ -156,7 +156,7 @@ func (dev *Device) getSupportedServices(resp *http.Response) error {
 	resp.Body.Close()
 
 	if err := doc.ReadFromBytes(data); err != nil {
-		//log.Println(err.Error())
+		// log.Println(err.Error())
 		return err
 	}
 
@@ -201,8 +201,8 @@ func NewDevice(params DeviceParams) (*Device, error) {
 }
 
 func (dev *Device) addEndpoint(Key, Value string) {
-	//use lowCaseKey
-	//make key having ability to handle Mixed Case for Different vendor devcie (e.g. Events EVENTS, events)
+	// use lowCaseKey
+	// make key having ability to handle Mixed Case for Different vendor devcie (e.g. Events EVENTS, events)
 	lowCaseKey := strings.ToLower(Key)
 
 	// Replace host with host from device params.
@@ -222,7 +222,7 @@ func (dev *Device) GetEndpoint(name string) string {
 func (dev Device) buildMethodSOAP(msg string) (gosoap.SoapMessage, error) {
 	doc := etree.NewDocument()
 	if err := doc.ReadFromString(msg); err != nil {
-		//log.Println("Got error")
+		// log.Println("Got error")
 
 		return "", err
 	}
@@ -236,15 +236,14 @@ func (dev Device) buildMethodSOAP(msg string) (gosoap.SoapMessage, error) {
 
 // getEndpoint functions get the target service endpoint in a better way
 func (dev Device) getEndpoint(endpoint string) (string, error) {
-
 	// common condition, endpointMark in map we use this.
 	if endpointURL, bFound := dev.endpoints[endpoint]; bFound {
 		return endpointURL, nil
 	}
 
-	//but ,if we have endpoint like event、analytic
-	//and sametime the Targetkey like : events、analytics
-	//we use fuzzy way to find the best match url
+	// but ,if we have endpoint like event、analytic
+	// and sametime the Targetkey like : events、analytics
+	// we use fuzzy way to find the best match url
 	var endpointURL string
 	for targetKey := range dev.endpoints {
 		if strings.Contains(targetKey, endpoint) {
@@ -283,7 +282,7 @@ func (dev Device) callMethodDo(endpoint string, method interface{}) (*http.Respo
 	soap.AddRootNamespaces(Xlmns)
 	soap.AddAction()
 
-	//Auth Handling
+	// Auth Handling
 	if dev.params.Username != "" && dev.params.Password != "" {
 		soap.AddWSSecurity(dev.params.Username, dev.params.Password)
 	}
