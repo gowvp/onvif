@@ -556,12 +556,12 @@ type PTZSpeed struct {
 type Vector2D struct {
 	X     float64    `xml:"x,attr"`
 	Y     float64    `xml:"y,attr"`
-	Space xsd.AnyURI `xml:"space,attr"`
+	Space xsd.AnyURI `xml:"space,attr,omitempty"`
 }
 
 type Vector1D struct {
 	X     float64    `xml:"x,attr"`
-	Space xsd.AnyURI `xml:"space,attr"`
+	Space xsd.AnyURI `xml:"space,attr,omitempty"`
 }
 
 type PanTiltLimits struct {
@@ -1836,9 +1836,9 @@ type GeoOrientation struct {
 }
 
 type FocusMove struct {
-	Absolute   AbsoluteFocus   `xml:"onvif:Absolute"`
-	Relative   RelativeFocus   `xml:"onvif:Relative"`
-	Continuous ContinuousFocus `xml:"onvif:Continuous"`
+	Absolute   AbsoluteFocus   `xml:"onvif:Absolute,omitempty"`
+	Relative   RelativeFocus   `xml:"onvif:Relative,omitempty"`
+	Continuous ContinuousFocus `xml:"onvif:Continuous,omitempty"`
 }
 
 type ContinuousFocus struct {
