@@ -4,6 +4,19 @@ Simple management of onvif IP-devices cameras. onvif is an implementation of  ON
 
 > **Note**: This repository is a fork and modification of [use-go/onvif](https://github.com/use-go/onvif). We have made custom changes based on the original work. Special thanks to the original authors and contributors of the use-go/onvif project.
 
+## Changes and Modifications
+
+This fork includes the following modifications compared to the original [use-go/onvif](https://github.com/use-go/onvif) repository:
+
+1. **Updated to Go 1.25**: The project has been upgraded to use Go 1.25, taking advantage of the latest language features and improvements.
+
+2. **Updated Dependencies**: All related dependency libraries have been updated to their latest compatible versions for better security, performance, and bug fixes.
+
+3. **Migrated to Standard Library Logging**: All logging has been migrated to use Go's standard library `slog` package instead of third-party logging libraries, reducing external dependencies and improving consistency.
+
+4. **Fixed Issues from Original Repository**: Various issues from the original repository have been addressed. For specific fixes and details, please refer to the commit history.
+
+
 ## Installation
 
 To install the library,  use **go get**:
@@ -99,6 +112,8 @@ device := onvif.NewDevice(onvif.DeviceParams{Xaddr: "192.168.13.42:1234", Userna
 device.Authenticate("username", "password")
 resp, err := dev.CallMethod(createUsers)
 ```
+
+
 
 ## Great Thanks
 

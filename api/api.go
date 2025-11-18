@@ -1,17 +1,15 @@
 package api
 
 import (
-	"io/ioutil"
+	"io"
+	"log/slog"
 	"net/http"
-	"os"
 	"path"
 	"reflect"
 	"regexp"
 	"strings"
-	"time"
 
 	"github.com/juju/errors"
-	"github.com/rs/zerolog"
 
 	"github.com/beevik/etree"
 	"github.com/gin-gonic/gin"
@@ -19,18 +17,6 @@ import (
 	"github.com/gowvp/onvif/gosoap"
 	"github.com/gowvp/onvif/networking"
 	wsdiscovery "github.com/gowvp/onvif/ws-discovery"
-)
-
-var (
-	// LoggerContext is the builder of a zerolog.Logger that is exposed to the application so that
-	// options at the CLI might alter the formatting and the output of the logs.
-	LoggerContext = zerolog.
-			New(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339}).
-			With().Timestamp()
-
-	// Logger is a zerolog logger, that can be safely used from any part of the application.
-	// It gathers the format and the output.
-	Logger = LoggerContext.Logger()
 )
 
 func RunApi() {
@@ -47,7 +33,7 @@ func RunApi() {
 		xaddr := c.GetHeader("xaddr")
 		acceptedData, err := c.GetRawData()
 		if err != nil {
-			Logger.Debug().Err(err).Msg("Failed to get rawx data")
+			slog.Error("Failed to get rawx data", "err", err)
 		}
 
 		message, err := callNecessaryMethod(serviceName, methodName, string(acceptedData), username, pass, xaddr)
@@ -148,7 +134,7 @@ func callNecessaryMethod(serviceName, methodName, acceptedData, username, passwo
 		return "", errors.Annotate(err, "SendSoap")
 	}
 
-	rsp, err := ioutil.ReadAll(servResp.Body)
+	rsp, err := io.ReadAll(servResp.Body)
 	if err != nil {
 		return "", errors.Annotate(err, "ReadAll")
 	}
@@ -341,7 +327,7 @@ func soapHandling(tp interface{}, tags *[]map[string]string) {
 		f := s.Field(i)
 		tmp, ok := typeOfT.FieldByName(typeOfT.Field(i).Name)
 		if !ok {
-			Logger.Debug().Str("field", typeOfT.Field(i).Name).Msg("reflection failed")
+			slog.Debug("reflection failed", "field", typeOfT.Field(i).Name)
 		}
 		*tags = append(*tags, map[string]string{typeOfT.Field(i).Name: string(tmp.Tag)})
 		subStruct := reflect.New(reflect.TypeOf(f.Interface()))
