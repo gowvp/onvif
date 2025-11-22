@@ -1,9 +1,12 @@
 package onvif
 
 import (
+	"context"
 	"encoding/xml"
 	"errors"
 	"io"
+	"log/slog"
+	"net"
 	"net/http"
 	"net/url"
 	"reflect"
@@ -111,6 +114,59 @@ func readResponse(resp *http.Response) string {
 	return string(b)
 }
 
+// AllAvailableDevicesAtSpecificEthernetInterfaces
+func AllAvailableDevicesAtSpecificEthernetInterfaces() (<-chan *Device, func(), error) {
+	ch := make(chan *Device, 8)
+
+	ctx, cancel := context.WithCancel(context.TODO())
+
+	ifaces, err := net.Interfaces()
+	if err != nil {
+		return nil, cancel, err
+	}
+	go func() {
+		defer close(ch)
+		defer cancel()
+		for _, iface := range ifaces {
+			// 检查接口是否支持多播
+			if iface.Flags&net.FlagMulticast == 0 {
+				continue
+			}
+			// 检查接口是否有 IPv4 地址
+			addrs, err := iface.Addrs()
+			if err != nil {
+				continue
+			}
+			hasIPv4 := false
+			for _, addr := range addrs {
+				ipNet, ok := addr.(*net.IPNet)
+				if ok && ipNet.IP.To4() != nil {
+					hasIPv4 = true
+					break
+				}
+			}
+			if !hasIPv4 {
+				continue
+			}
+			select {
+			case <-ctx.Done():
+			default:
+				slog.Debug("GetAvailableDevicesAtSpecificEthernetInterface", "iface", iface.Name)
+				devs, err := GetAvailableDevicesAtSpecificEthernetInterface(iface.Name)
+				if err != nil {
+					slog.Error("GetAvailableDevicesAtSpecificEthernetInterface", "err", err, "iface", iface.Name)
+					continue
+				}
+				slog.Debug("GetAvailableDevicesAtSpecificEthernetInterface", "devs", len(devs), "iface", iface.Name)
+				for _, dev := range devs {
+					ch <- &dev
+				}
+			}
+		}
+	}()
+	return ch, cancel, nil
+}
+
 // GetAvailableDevicesAtSpecificEthernetInterface ...
 func GetAvailableDevicesAtSpecificEthernetInterface(interfaceName string) ([]Device, error) {
 	// Call a ws-discovery Probe Message to Discover NVT type Devices
@@ -133,7 +189,7 @@ func GetAvailableDevicesAtSpecificEthernetInterface(interfaceName string) ([]Dev
 			if !nvtDevicesSeen[xaddr] {
 				dev, err := NewDevice(DeviceParams{Xaddr: strings.Split(xaddr, " ")[0]})
 				if err != nil {
-					// TODO(jfsmig) print a warning
+					slog.Warn("NewDevice", "err", err, "addr", xaddr)
 				} else {
 					nvtDevicesSeen[xaddr] = true
 					nvtDevices = append(nvtDevices, *dev)

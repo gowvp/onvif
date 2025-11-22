@@ -8,6 +8,7 @@ import (
 	"regexp"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/beevik/etree"
 	"github.com/gowvp/onvif"
@@ -17,7 +18,30 @@ import (
 
 func TestGetAvailableDevicesAtSpecificEthernetInterface(t *testing.T) {
 	s, err := onvif.GetAvailableDevicesAtSpecificEthernetInterface("en0")
-	log.Printf("%v %v", err, s)
+	t.Log(err, s)
+}
+
+func TestAllAvailableDevicesAtSpecificEthernetInterfaces(t *testing.T) {
+	now := time.Now()
+	defer t.Log("time cost", time.Since(now))
+	recvCh, cancel, err := onvif.AllAvailableDevicesAtSpecificEthernetInterfaces()
+	defer cancel()
+	if err != nil {
+		t.Fatal(err)
+		return
+	}
+	for {
+		select {
+		case dev := <-recvCh:
+			if dev == nil {
+				return
+			}
+			t.Log("\n"+time.Now().Format("04:05.000"), dev.GetDeviceInfo(), dev.GetServices())
+		case <-time.After(3 * time.Second):
+			t.Log("timeout, cancel")
+			cancel()
+		}
+	}
 }
 
 func client() {
