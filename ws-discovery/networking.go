@@ -93,3 +93,75 @@ func sendUDPMulticast(msg string, interfaceName string) ([]string, error) {
 	}
 	return result, nil
 }
+
+// SendProbe to device
+func SendProbe2(interfaceName string, scopes, types []string, namespaces map[string]string, callback func(string)) error {
+	// Creating UUID Version 4
+	uuidV4 := uuid.Must(uuid.NewV4())
+	// fmt.Printf("UUIDv4: %s\n", uuidV4)
+
+	probeSOAP := buildProbeMessage(uuidV4.String(), scopes, types, namespaces)
+	//probeSOAP = `<?xml version="1.0" encoding="UTF-8"?>
+	//<Envelope xmlns="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+	//<Header>
+	//<a:Action mustUnderstand="1">http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe</a:Action>
+	//<a:MessageID>uuid:78a2ed98-bc1f-4b08-9668-094fcba81e35</a:MessageID><a:ReplyTo>
+	//<a:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</a:Address>
+	//</a:ReplyTo><a:To mustUnderstand="1">urn:schemas-xmlsoap-org:ws:2005:04:discovery</a:To>
+	//</Header>
+	//<Body><Probe xmlns="http://schemas.xmlsoap.org/ws/2005/04/discovery">
+	//<d:Types xmlns:d="http://schemas.xmlsoap.org/ws/2005/04/discovery" xmlns:dp0="http://www.onvif.org/ver10/network/wsdl">dp0:NetworkVideoTransmitter</d:Types>
+	//</Probe>
+	//</Body>
+	//</Envelope>`
+
+	return sendUDPMulticast2(probeSOAP.String(), interfaceName, callback)
+}
+
+func sendUDPMulticast2(msg string, interfaceName string, callback func(string)) error {
+	c, err := net.ListenPacket("udp4", "0.0.0.0:0")
+	if err != nil {
+		return err
+	}
+	defer c.Close()
+
+	iface, err := net.InterfaceByName(interfaceName)
+	if err != nil {
+		return err
+	}
+
+	p := ipv4.NewPacketConn(c)
+	group := net.IPv4(239, 255, 255, 250)
+	if err := p.JoinGroup(iface, &net.UDPAddr{IP: group}); err != nil {
+		return err
+	}
+
+	dst := &net.UDPAddr{IP: group, Port: 3702}
+	data := []byte(msg)
+	for _, ifi := range []*net.Interface{iface} {
+		if err := p.SetMulticastInterface(ifi); err != nil {
+			return err
+		}
+		p.SetMulticastTTL(2)
+		if _, err := p.WriteTo(data, nil, dst); err != nil {
+			return err
+		}
+	}
+
+	if err := p.SetReadDeadline(time.Now().Add(time.Second * 2)); err != nil {
+		return err
+	}
+
+	for {
+		b := make([]byte, bufSize)
+		n, _, _, err := p.ReadFrom(b)
+		if err != nil {
+			if !errors.Is(err, os.ErrDeadlineExceeded) {
+				return err
+			}
+			break
+		}
+		callback(string(b[0:n]))
+	}
+	return nil
+}

@@ -1,7 +1,6 @@
 package onvif
 
 import (
-	"context"
 	"encoding/xml"
 	"errors"
 	"io"
@@ -12,6 +11,7 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/beevik/etree"
 	"github.com/gowvp/onvif/device"
@@ -115,18 +115,16 @@ func readResponse(resp *http.Response) string {
 }
 
 // AllAvailableDevicesAtSpecificEthernetInterfaces
-func AllAvailableDevicesAtSpecificEthernetInterfaces() (<-chan *Device, func(), error) {
+func AllAvailableDevicesAtSpecificEthernetInterfaces() (<-chan *Device, error) {
 	ch := make(chan *Device, 8)
-
-	ctx, cancel := context.WithCancel(context.TODO())
 
 	ifaces, err := net.Interfaces()
 	if err != nil {
-		return nil, cancel, err
+		return nil, err
 	}
 	go func() {
 		defer close(ch)
-		defer cancel()
+		var wg sync.WaitGroup
 		for _, iface := range ifaces {
 			// 检查接口是否支持多播
 			if iface.Flags&net.FlagMulticast == 0 {
@@ -148,23 +146,42 @@ func AllAvailableDevicesAtSpecificEthernetInterfaces() (<-chan *Device, func(), 
 			if !hasIPv4 {
 				continue
 			}
-			select {
-			case <-ctx.Done():
-			default:
-				slog.Debug("GetAvailableDevicesAtSpecificEthernetInterface", "iface", iface.Name)
-				devs, err := GetAvailableDevicesAtSpecificEthernetInterface(iface.Name)
+			wg.Go(func() {
+				err := GetAvailableDevicesAtSpecificEthernetInterfaceByChannel(iface.Name, ch)
 				if err != nil {
 					slog.Error("GetAvailableDevicesAtSpecificEthernetInterface", "err", err, "iface", iface.Name)
-					continue
 				}
-				slog.Debug("GetAvailableDevicesAtSpecificEthernetInterface", "devs", len(devs), "iface", iface.Name)
-				for _, dev := range devs {
-					ch <- &dev
+			})
+		}
+		wg.Wait()
+	}()
+	return ch, nil
+}
+
+// GetAvailableDevicesAtSpecificEthernetInterface ...
+func GetAvailableDevicesAtSpecificEthernetInterfaceByChannel(interfaceName string, ch chan *Device) error {
+	// Call a ws-discovery Probe Message to Discover NVT type Devices
+	nvtDevicesSeen := make(map[string]bool)
+	return wsdiscovery.SendProbe2(interfaceName, nil, []string{"dn:" + NVT.String()}, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"}, func(j string) {
+		doc := etree.NewDocument()
+		if err := doc.ReadFromString(j); err != nil {
+			slog.Warn("ReadFromString", "err", err, "j", j)
+			return
+		}
+
+		for _, xaddr := range doc.Root().FindElements("./Body/ProbeMatches/ProbeMatch/XAddrs") {
+			xaddr := strings.Split(strings.Split(xaddr.Text(), " ")[0], "/")[2]
+			if !nvtDevicesSeen[xaddr] {
+				dev, err := NewDevice(DeviceParams{Xaddr: strings.Split(xaddr, " ")[0]})
+				if err != nil {
+					slog.Warn("NewDevice", "err", err, "addr", xaddr)
+				} else {
+					nvtDevicesSeen[xaddr] = true
+					ch <- dev
 				}
 			}
 		}
-	}()
-	return ch, cancel, nil
+	})
 }
 
 // GetAvailableDevicesAtSpecificEthernetInterface ...
