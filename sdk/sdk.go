@@ -3,7 +3,7 @@ package sdk
 import (
 	"context"
 	"encoding/xml"
-	"io/ioutil"
+	"io"
 	"log/slog"
 	"net/http"
 
@@ -13,7 +13,7 @@ import (
 func ReadAndParse(ctx context.Context, httpReply *http.Response, reply interface{}, tag string) error {
 	slog.Debug("RPC", "msg", httpReply.Status, "status", httpReply.StatusCode, "action", tag)
 	// TODO(jfsmig): extract the deadline from ctx.Deadline() and apply it on the reply reading
-	b, err := ioutil.ReadAll(httpReply.Body)
+	b, err := io.ReadAll(httpReply.Body)
 	if err != nil {
 		return errors.Annotate(err, "read")
 	}

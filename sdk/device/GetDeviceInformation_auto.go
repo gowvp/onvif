@@ -9,6 +9,7 @@ import (
 
 	"github.com/gowvp/onvif"
 	"github.com/gowvp/onvif/device"
+	"github.com/gowvp/onvif/media"
 	"github.com/gowvp/onvif/sdk"
 	"github.com/juju/errors"
 )
@@ -19,13 +20,19 @@ func Call_GetDeviceInformation(ctx context.Context, dev *onvif.Device, request d
 		Header struct{}
 		Body   struct {
 			GetDeviceInformationResponse device.GetDeviceInformationResponse
+			Fault                        media.GetDeviceInformationFault
 		}
 	}
 	var reply Envelope
-	if httpReply, err := dev.CallMethod(request); err != nil {
+	httpReply, err := dev.CallMethod(request)
+	if err != nil {
 		return reply.Body.GetDeviceInformationResponse, errors.Annotate(err, "call")
-	} else {
-		err = sdk.ReadAndParse(ctx, httpReply, &reply, "GetDeviceInformation")
+	}
+	if err := sdk.ReadAndParse(ctx, httpReply, &reply, "GetDeviceInformation"); err != nil {
 		return reply.Body.GetDeviceInformationResponse, errors.Annotate(err, "reply")
 	}
+	if httpReply.StatusCode == 200 {
+		return reply.Body.GetDeviceInformationResponse, nil
+	}
+	return reply.Body.GetDeviceInformationResponse, errors.New(reply.Body.Fault.Reason.Text)
 }

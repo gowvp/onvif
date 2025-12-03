@@ -88,6 +88,16 @@ type GetProfilesResponse struct {
 	Profiles []onvif.Profile
 }
 
+type GetDeviceInformationFault struct {
+	Code struct {
+		Value   string
+		Subcode string
+	}
+	Reason struct {
+		Text string
+	}
+}
+
 type AddVideoEncoderConfiguration struct {
 	XMLName            string               `xml:"trt:AddVideoEncoderConfiguration"`
 	ProfileToken       onvif.ReferenceToken `xml:"trt:ProfileToken"`

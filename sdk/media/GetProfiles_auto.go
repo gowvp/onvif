@@ -19,13 +19,31 @@ func Call_GetProfiles(ctx context.Context, dev *onvif.Device, request media.GetP
 		Header struct{}
 		Body   struct {
 			GetProfilesResponse media.GetProfilesResponse
+			Fault               media.GetDeviceInformationFault
 		}
 	}
 	var reply Envelope
-	if httpReply, err := dev.CallMethod(request); err != nil {
+	httpReply, err := dev.CallMethod(request)
+	if err != nil {
 		return reply.Body.GetProfilesResponse, errors.Annotate(err, "call")
-	} else {
-		err = sdk.ReadAndParse(ctx, httpReply, &reply, "GetProfiles")
+	}
+	if err := sdk.ReadAndParse(ctx, httpReply, &reply, "GetProfiles"); err != nil {
 		return reply.Body.GetProfilesResponse, errors.Annotate(err, "reply")
 	}
+	if httpReply.StatusCode == 200 {
+		return reply.Body.GetProfilesResponse, nil
+	}
+	return reply.Body.GetProfilesResponse, errors.New(reply.Body.Fault.Reason.Text)
+}
+
+type Fault struct {
+	Code struct {
+		Value   string `xml:"Value"`
+		Subcode struct {
+			Value string `xml:"Value"`
+		} `xml:"Subcode"`
+	} `xml:"Code"`
+	Reason struct {
+		Text string `xml:"Text"`
+	} `xml:"Reason"`
 }

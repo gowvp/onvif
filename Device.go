@@ -264,7 +264,6 @@ func NewDevice(params DeviceParams) (*Device, error) {
 	if err != nil || resp.StatusCode != http.StatusOK {
 		return dev, errors.New("camera is not available at " + dev.params.Xaddr + " or it does not support ONVIF services")
 	}
-
 	err = dev.getSupportedServices(resp)
 	if err != nil {
 		return dev, err
